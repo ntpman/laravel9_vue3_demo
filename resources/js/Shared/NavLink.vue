@@ -1,5 +1,5 @@
 <template>
-  <Link class="nav-link" :class="{ 'active': active }">
+  <Link :class="{ 'active': active }">
     <slot />
   </Link>
 </template>

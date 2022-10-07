@@ -2,7 +2,10 @@
   <Head title="Users" />
   <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center">
-      <h1>Users</h1>
+      <h1>
+        Users
+        <Link href="/users/create" class="btn btn-primary">Create</Link>
+      </h1>
       <input
         v-model="search"
         type="text"
@@ -39,6 +42,7 @@ export default {
 <script setup>
 import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import debounce from "lodash/debounce";
 
 let prorps = defineProps({
   users: Object,
@@ -47,16 +51,19 @@ let prorps = defineProps({
 
 let search = ref(prorps.filters.search);
 
-watch(search, (value) => {
-  Inertia.get(
-    "/users",
-    { search: value },
-    {
-      preserveState: true,
-      replace: true,
-    }
-  );
-});
+watch(
+  search,
+  debounce(function (value) {
+    Inertia.get(
+      "/users",
+      { search: value },
+      {
+        preserveState: true,
+        replace: true,
+      }
+    );
+  }, 300)
+);
 </script>
 
 <style>
